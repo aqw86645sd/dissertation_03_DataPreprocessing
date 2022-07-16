@@ -1,6 +1,7 @@
 from Entrance import Entrance
 import threading
 import json
+import os
 
 
 class ClassCombinations(Entrance):
@@ -9,12 +10,16 @@ class ClassCombinations(Entrance):
         """
         使用 Entrance 的 __init__
         """
-        self.max_thread_num = 5  # thread 數量
+        self.max_thread_num = 15  # thread 數量
 
     def run(self):
         """
             使用 thread
         """
+        if not os.path.exists(self.combination_file_path):
+            print('檔案存放位置不存在')
+            return
+
         for ticker in self.ticker_list:
             key = {'ticker': ticker}
 

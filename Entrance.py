@@ -10,8 +10,8 @@ class Entrance:
         self.is_analyze_combinations = True  # 句子組合
 
         """ parameter """
-        self.p_start_date = '2022-01-01'
-        self.p_end_date = '2022-01-10'
+        self.p_start_date = '2022-02-19'
+        self.p_end_date = '2022-02-28'
         self.ticker_list = ['AAPL']
         self.dictionary_size = 3000  # 字典大小
 
@@ -23,7 +23,8 @@ class Entrance:
         self.coll_analyze_dictionary = self.client['python_getStockNews']['analyze_dictionary']
         self.coll_analyze_combinations = self.client['python_getStockNews']['analyze_combinations']
 
-        self.combination_file_path = './Combination_File/'
+        """ 檔案存放位置 """
+        self.combination_file_path = '/Volumes/P2/School/Train_Data/Combination_Sequence/'
 
     def run(self):
         """ 製作字典 (analyze_dictionary) """
