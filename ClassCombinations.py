@@ -10,7 +10,8 @@ class ClassCombinations(Entrance):
         """
         使用 Entrance 的 __init__
         """
-        self.max_thread_num = 15  # thread 數量
+        print('執行 ClassCombinations start')
+        self.max_thread_num = 30  # thread 數量
 
     def run(self):
         """
@@ -75,6 +76,7 @@ class ClassCombinations(Entrance):
             for news_date in combination_date:
                 news_key = {
                     'ticker': ticker,
+                    'source': 'Zacks',
                     'date': news_date
                 }
 
@@ -121,6 +123,7 @@ class ClassCombinations(Entrance):
                     if result[0] == m - n:
                         # 最後一種組合
                         print(file_name, ', C', m, '取 3, 有', current_times, '種結果, label =', label)
+                        print('執行 ClassCombinations end')
                         return
                     else:
                         stop_idx_location -= 1  # 固定點往前
