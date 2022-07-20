@@ -12,56 +12,49 @@ class ClassDictionary(Entrance):
         """
         print('執行 ClassDictionary start')
         self.coll_original_Zacks = self.client['python_getStockNews']['original_Zacks']
-        self.coll_original_SeekingAlpha = self.client['python_getStockNews']['original_SeekingAlpha']
+        # self.coll_original_SeekingAlpha = self.client['python_getStockNews']['original_SeekingAlpha']
 
     def run(self):
-        text_Zacks = ""
-        text_SeekingAlpha = ""
 
         """ 將 Zacks 全部資料都合成一筆字串 """
         db_data_Zacks = self.coll_original_Zacks.find()
         news_data_list_Zacks = [row_data for row_data in db_data_Zacks]
+        text_Zacks = ""
         for news_data in news_data_list_Zacks:
             text_Zacks += news_data["content"]
 
         """ 將 SeekingAlpha 全部資料都合成一筆字串 """
         # db_data_SeekingAlpha = self.coll_original_SeekingAlpha.find()
         # news_data_list_SeekingAlpha = [row_data for row_data in db_data_SeekingAlpha]
+        # text_SeekingAlpha = ""
         # for news_data in news_data_list_SeekingAlpha:
         #     soup = BeautifulSoup(news_data["content"], "html.parser")
         #     text_SeekingAlpha += soup.text
 
-        text = text_Zacks + text_SeekingAlpha
-        print('執行 ClassDictionary : text')
+        text = text_Zacks  # + text_SeekingAlpha
 
-        # 去掉無意義詞彙
-        text = self.replace_special_word(text)
         print('執行 ClassDictionary : 去掉無意義詞彙')
+        text = self.replace_special_word(text)
 
-        # 轉小寫
-        text = text.lower()
         print('執行 ClassDictionary : 轉小寫')
+        text = text.lower()
 
-        # Word Segmentation (斷詞)
+        print('執行 ClassDictionary : Word Segmentation (斷詞)')
         token_list = nltk.tokenize.word_tokenize(text)
-        print('執行 ClassDictionary : 斷詞')
 
-        # POS (詞性標記)
+        print('執行 ClassDictionary : POS (詞性標記)')
         pos_list = nltk.pos_tag(token_list)
-        print('執行 ClassDictionary : 詞性標記')
 
-        # Lemmatization (字型還原）
+        print('執行 ClassDictionary : Lemmatization (字型還原')
         lemmatization_list = [self.lemmatize_by_pos(token, pos) for token, pos in pos_list]
-        print('執行 ClassDictionary : 字型還原')
 
-        # clean old data
+        print('執行 ClassDictionary : delete old data')
         self.coll_analyze_dictionary.drop()
-        print('執行 ClassDictionary : clean')
 
+        print('執行 ClassDictionary : unigrams')
         news_unigrams = ngrams(lemmatization_list, 1)
         news_unigrams_freq = Counter(news_unigrams)
         dictionary = news_unigrams_freq.most_common(self.dictionary_size)
-        print('執行 ClassDictionary : unigrams')
 
         d_index = 0  # 字典對應的數值
         dictionary_json = {}
@@ -77,7 +70,9 @@ class ClassDictionary(Entrance):
 
         input_layout['dictionary_json'] = dictionary_json
 
+        print('執行 ClassDictionary : insert new data')
         self.coll_analyze_dictionary.insert_one(input_layout)
+
         print('執行 ClassDictionary end')
 
     @staticmethod
