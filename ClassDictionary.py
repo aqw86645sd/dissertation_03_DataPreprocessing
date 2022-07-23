@@ -1,4 +1,5 @@
 from Entrance import Entrance
+import gc
 import nltk
 from collections import Counter
 from nltk.util import ngrams
@@ -33,6 +34,11 @@ class ClassDictionary(Entrance):
 
         text = text_Zacks  # + text_SeekingAlpha
 
+        """ release memory """
+        del text_Zacks  # clean parameter
+        # del text_SeekingAlpha  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
+
         print('執行 ClassDictionary : 去掉無意義詞彙')
         text = self.replace_special_word(text)
 
@@ -42,21 +48,42 @@ class ClassDictionary(Entrance):
         print('執行 ClassDictionary : Word Segmentation (斷詞)')
         token_list = nltk.tokenize.word_tokenize(text)
 
+        """ release memory """
+        del text  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
+
         print('執行 ClassDictionary : POS (詞性標記)')
         pos_list = nltk.pos_tag(token_list)
 
+        """ release memory """
+        del token_list  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
+
         print('執行 ClassDictionary : Lemmatization (字型還原')
         lemmatization_list = [self.lemmatize_by_pos(token, pos) for token, pos in pos_list]
+
+        """ release memory """
+        del pos_list  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
 
         print('執行 ClassDictionary : delete old data')
         self.coll_analyze_dictionary.drop()
 
         print('執行 ClassDictionary : unigrams')
         news_unigrams = ngrams(lemmatization_list, 1)
+
+        """ release memory """
+        del lemmatization_list  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
+
         news_unigrams_freq = Counter(news_unigrams)
         dictionary = news_unigrams_freq.most_common(self.dictionary_size)
 
-        d_index = 0  # 字典對應的數值
+        """ release memory """
+        del news_unigrams_freq  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
+
+        d_index = 1  # 字典對應的數值 (不可為 0, 會與padding補的值撞到)
         dictionary_json = {}
 
         input_layout = {
