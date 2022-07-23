@@ -1,5 +1,7 @@
 from Entrance import Entrance
 
+import gc
+
 
 class ClassEncoding(Entrance):
     def __init__(self):
@@ -38,3 +40,9 @@ class ClassEncoding(Entrance):
             self.coll_analyze_news_encoding.insert_one(input_layout)
 
         print('執行 ClassEncoding end')
+
+        """ release memory """
+        del dictionary_json  # clean parameter
+        del dictionary_key_list  # clean parameter
+        del analyze_news_list  # clean parameter
+        gc.collect()  # 清除或釋放未引用的記憶體
