@@ -45,7 +45,7 @@ class ClassDictionary(Entrance):
         print('執行 ClassDictionary : 轉小寫')
         text = text.lower()
 
-        print('執行 ClassDictionary : Word Segmentation (斷詞)')
+        print('執行 ClassDictionary : Word Segmentation (斷詞)')  # TODO 這段會跑不完
         token_list = nltk.tokenize.word_tokenize(text)
 
         """ release memory """
