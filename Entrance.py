@@ -4,8 +4,8 @@ import pymongo
 class Entrance:
     def __init__(self):
         """ 控制是否執行該功能 """
-        self.is_analyze_dictionary = False  # 製作字典
         self.is_analyze_ticker = False  # 行情資料
+        self.is_analyze_dictionary = False  # 製作字典
         self.is_analyze_period = False  # 漲跌區間
         self.is_analyze_combinations = False  # 句子組合
         self.is_analyze_news_encoding = True  # 新聞單字encoding
@@ -29,15 +29,15 @@ class Entrance:
         self.combination_file_path = '/Volumes/P2/School/Train_Data/Combination_Sequence/'
 
     def run(self):
+        """ 抓出股票行情資料 (analyze_ticker) """
+        # 參考 03_insert_analyze_ticker.ipynb
+
         """ 製作字典 (analyze_dictionary) """
-        # 參考 03_NLTK_ngrams_analyze.ipynb
+        # 參考 04_NLTK_ngrams_analyze.ipynb
         if self.is_analyze_dictionary:
             from ClassDictionary import ClassDictionary
             dictionary = ClassDictionary()
             dictionary.run()
-
-        """ 抓出股票行情資料 (analyze_ticker) """
-        # 參考 04_insert_analyze_ticker.ipynb
 
         """ 抓出股票漲跌區間 (analyze_period) """
         # 參考 05_knowledge_all.ipynb
