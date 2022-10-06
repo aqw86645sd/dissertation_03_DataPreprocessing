@@ -1,7 +1,5 @@
 from Entrance import Entrance
 
-import gc
-
 
 class ClassEncoding(Entrance):
     def __init__(self):
@@ -17,12 +15,11 @@ class ClassEncoding(Entrance):
         self.coll_analyze_news_encoding.drop()
 
         # 字典
-        dictionary_json = self.coll_analyze_dictionary.find_one()['dictionary_json']
-        dictionary_key_list = list(dictionary_json)
+        dictionary_json = list(self.coll_analyze_dictionary_filter.find())[0]['word_json']
 
         for p_ticker in self.ticker_list:
 
-            key = {'ticker': p_ticker}
+            key = {'source': 'Zacks', 'ticker': p_ticker}
 
             # 新聞
             analyze_news_list = list(self.coll_analyze_news.find(key))
@@ -32,26 +29,18 @@ class ClassEncoding(Entrance):
                 news_encoding_list = []
 
                 for word in news_sentence_list:
-                    if word in dictionary_key_list:
+                    if word in dictionary_json:
                         # 字典 mapping
-                        news_encoding_list.append(dictionary_json[word])
+                        news_encoding_list.append(dictionary_json[word]['index'])
 
                 input_layout = {
                     'sequence': news_data['sequence'],
-                    'date': news_data['date'],
-                    'ticker': p_ticker,
                     'news_encoding_list': news_encoding_list
                 }
 
-                self.coll_analyze_news_encoding.insert_one(input_layout)
-
-            """ release memory """
-            del analyze_news_list  # clean parameter
-            gc.collect()  # 清除或釋放未引用的記憶體
+                if len(news_encoding_list) == 0:
+                    pass
+                else:
+                    self.coll_analyze_news_encoding.insert_one(input_layout)
 
         print('執行 ClassEncoding end')
-
-        """ release memory """
-        del dictionary_json  # clean parameter
-        del dictionary_key_list  # clean parameter
-        gc.collect()  # 清除或釋放未引用的記憶體
