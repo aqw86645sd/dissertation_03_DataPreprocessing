@@ -38,6 +38,10 @@ class Entrance:
     def run(self):
         """ 抓出股票行情資料 (analyze_ticker) """
         # 參考 03_insert_analyze_ticker.ipynb
+        if self.is_analyze_ticker:
+            from ClassStockData import ClassStockData
+            stockData = ClassStockData()
+            stockData.run()
 
         """ 製作字典 (analyze_dictionary) """
         # 參考 04_1_dictionary_tf-idf.ipynb
