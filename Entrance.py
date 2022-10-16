@@ -6,14 +6,14 @@ class Entrance:
     def __init__(self):
         """ 控制是否執行該功能 """
         self.is_analyze_ticker = False  # 行情資料
-        self.is_analyze_dictionary = True  # 製作字典
-        self.is_analyze_period = False  # 漲跌區間
+        self.is_analyze_dictionary = False  # 製作字典
+        self.is_analyze_period = True  # 漲跌區間
         self.is_analyze_combinations = False  # 句子組合sorted
         self.is_analyze_news_encoding = False  # 新聞單字encoding
 
         """ parameter """
         self.p_start_date = '2022-01-01'
-        self.p_end_date = '2022-06-30'
+        self.p_end_date = '2022-10-01'
         self.ticker_list = ['AAPL']
 
         """ dictionary filter """
@@ -55,7 +55,11 @@ class Entrance:
             gc.collect()  # 清除或釋放未引用的記憶體
 
         """ 抓出股票漲跌區間 (analyze_period) """
-        # 參考 05_knowledge_all.ipynb
+        # 參考 05_insert_analyze_period.ipynb
+        if self.is_analyze_period:
+            from ClassPeriodLabel import ClassPeriodLabel
+            periodLabel = ClassPeriodLabel()
+            periodLabel.run()
 
         """ 每三日的新聞句子組合並使用股票漲跌區間判斷LABEL (analyze_combinations) """
         # 參考 06_insert_analyze_combination.ipynb
