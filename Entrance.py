@@ -7,7 +7,7 @@ class Entrance:
         """ 控制是否執行該功能 """
         self.is_analyze_ticker = False  # 行情資料
         self.is_analyze_dictionary = False  # 製作字典
-        self.is_analyze_period = True  # 漲跌區間
+        self.is_analyze_period = False  # 漲跌區間
         self.is_analyze_combinations = False  # 句子組合sorted
         self.is_analyze_news_encoding = False  # 新聞單字encoding
 
