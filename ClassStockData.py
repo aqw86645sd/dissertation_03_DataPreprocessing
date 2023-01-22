@@ -46,6 +46,8 @@ class ClassStockData(Entrance):
                 label_deviation_volume = 0
                 label_deviation_price_original = 0
                 label_deviation_volume_original = 0
+                ticker_price = close_price_list[idx]
+                ticker_volume = volumn_list[idx]
 
                 if idx > 0:
                     # 當日損益百分比區間誤差(1百分比為一區間)
@@ -72,6 +74,8 @@ class ClassStockData(Entrance):
                 input_json['deviation_price_original'] = label_deviation_price_original
                 input_json['deviation_volume_original'] = label_deviation_volume_original
                 input_json['deviation_range_original'] = label_deviation_range_original
+                input_json['ticker_price'] = ticker_price
+                input_json['ticker_volume'] = ticker_volume
 
                 total_ticker_date_json[date_list[idx]] = input_json
 

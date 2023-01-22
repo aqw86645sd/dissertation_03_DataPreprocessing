@@ -40,8 +40,8 @@ class Entrance:
         # 參考 03_insert_analyze_ticker.ipynb
         if self.is_analyze_ticker:
             from ClassStockData import ClassStockData
-            stockData = ClassStockData()
-            stockData.run()
+            stockdata = ClassStockData()
+            stockdata.run()
 
         """ 製作字典 (analyze_dictionary) """
         # 參考 04_1_dictionary_tf-idf.ipynb
@@ -58,8 +58,8 @@ class Entrance:
         # 參考 05_insert_analyze_period.ipynb
         if self.is_analyze_period:
             from ClassPeriodLabel import ClassPeriodLabel
-            periodLabel = ClassPeriodLabel()
-            periodLabel.run()
+            periodlabel = ClassPeriodLabel()
+            periodlabel.run()
 
         """ 每三日的新聞句子組合並使用股票漲跌區間判斷LABEL (analyze_combinations) """
         # 參考 06_insert_analyze_combination.ipynb
